@@ -1,0 +1,22 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: energy_backend
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./backend/data.csv:/app/data.csv
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: energy_frontend
+    ports:
+      - "8889:8889"
+    environment:
+      - BACKEND_URL=http://backend:8888
+    depends_on:
+      - backend
+    restart: always
